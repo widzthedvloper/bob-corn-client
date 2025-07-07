@@ -21,3 +21,9 @@ export const buyCorn = () => {
     .then(res => res.data)
     .catch(err => err )
 }
+
+export const logout = () => {
+    return client.get('oauth/logout')
+    .then(res => res.data)
+    .catch(err => err)
+}

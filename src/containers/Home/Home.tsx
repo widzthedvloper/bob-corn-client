@@ -6,7 +6,9 @@ import { type GridColDef } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Alert from '@mui/material/Alert';
-import {buyCorn} from '../../services/serices';
+import {buyCorn, logout} from '../../services/serices';
+import { useNavigate } from 'react-router-dom';
+
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', flex: 1, type: 'number', },
@@ -48,6 +50,8 @@ function Home(){
     const [state, setState] = useState<NotificationType>({message: "", type: "success", close:  ()=>{}})
     const [showNotification, setShowNotification] = useState<boolean>(false)
 
+    const navigate = useNavigate();
+
     const fetchData = () => {
          getCornProducts()
         .then(data => {
@@ -74,6 +78,18 @@ function Home(){
         })
     }
 
+    const handleLogout = () => {
+        logout()
+        .then(data => {
+            setState({message: data.message, type: 'success', close: setShowNotification})
+            navigate('/login');
+        })
+        .catch(err => {
+            setState({message: 'Error while loggin out', type: 'success', close: setShowNotification})
+            navigate('/login')
+        })
+    }
+
     useEffect(() => {
         fetchData()
     }, [])
@@ -85,7 +101,7 @@ function Home(){
         <Table rows={cornProducts} columns={columns}/>
         <Stack spacing={2} mt={3} direction="row" justifyContent="end" alignItems="center">
             <Button variant="contained" onClick={() => handleBuy()}>Buy Some Corn</Button>
-            <Button variant="contained">Log out</Button>
+            <Button variant="contained" onClick={() => handleLogout()}>Log out</Button>
         </Stack>
         </>
     )
