@@ -6,7 +6,7 @@ import { type GridColDef } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Alert from '@mui/material/Alert';
-import {buyCorn, logout} from '../../services/serices';
+import {buyCorn, logout, isLoggedIn} from '../../services/serices';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -90,7 +90,17 @@ function Home(){
         })
     }
 
+    const checkUser = () => {
+        isLoggedIn()
+        .then(data => {
+            if (!data?.is_loggedin){
+                navigate('/login')
+            }
+        })
+    }
+
     useEffect(() => {
+        checkUser() //TODO: Later this will be an a store or somewhere else
         fetchData()
     }, [])
 
