@@ -2,6 +2,9 @@
 
 > This is the frond end for the Bob web site.
 
+# Screenshots
+
+![ScreenShot](./mainScreen.png)
 
 ### Prerequisites
 
