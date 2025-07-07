@@ -27,3 +27,9 @@ export const logout = () => {
     .then(res => res.data)
     .catch(err => err)
 }
+
+export const isLoggedIn = () => {
+    return client.get('oauth/is-loggedin')
+    .then(res => res.data)
+    .catch(err => err)
+}
