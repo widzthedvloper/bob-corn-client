@@ -18,7 +18,6 @@ const columns: GridColDef[] = [
     type: 'date',
     flex: 1,
     valueGetter: (params: any) => {
-        console.log(params)
         return params ? new Date(params) : null
     }
   },
@@ -57,17 +56,15 @@ function Home(){
                 'crop_type_id': corn?.cropType?.id,
                 'crop_type_name': corn?.cropType?.name 
             }))
-            console.log(flattenedData)
             setCornProducts(flattenedData)
         })
-        .catch(console.log)
+        .catch(err => err)
     }
 
     const handleBuy = () => {
         setShowNotification(false)
         buyCorn()
         .then(data => {
-            console.log(data)
             setState({
                 message: data?.status == 429 ? "Too many request!" : data?.message,
                 type: data?.status == 429 ? "warning" : "success",
