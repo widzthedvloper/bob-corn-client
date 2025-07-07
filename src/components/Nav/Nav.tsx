@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
+import { Link } from 'react-router-dom';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -80,7 +81,10 @@ export default function PrimarySearchAppBar() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-          <Box sx={{ flexGrow: 1 }} />
+          <Box sx={(theme) => ({ flexGrow: 1, color: theme.palette.primary.contrastText })}>
+            <Link to='/'>Home</Link>
+            <Link to='/login'>Login</Link>
+          </Box>
         </Toolbar>
       </AppBar>
     </Box>
