@@ -10,8 +10,8 @@ const client = axios.create({
     }
 })
 
-export const getData = () => {
-    return client.get('/')
+export const getCornProducts = () => {
+    return client.get('/corn-products/')
     .then(res => res.data)
     .catch(err => err)
 }
