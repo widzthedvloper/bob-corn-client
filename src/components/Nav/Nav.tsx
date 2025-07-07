@@ -70,7 +70,9 @@ export default function PrimarySearchAppBar() {
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            Bob's Corn
+            <Link to='/'>
+              Bob's Corn
+            </Link>
           </Typography>
           <Search>
             <SearchIconWrapper>
