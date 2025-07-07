@@ -15,3 +15,9 @@ export const getCornProducts = () => {
     .then(res => res.data)
     .catch(err => err)
 }
+
+export const buyCorn = () => {
+    return client.get('/buy')
+    .then(res => res.data)
+    .catch(err => err )
+}

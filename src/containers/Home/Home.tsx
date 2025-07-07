@@ -3,6 +3,10 @@ import Nav from '../../components/Nav/Nav'
 import Table from '../../components/Table/Table';
 import {getCornProducts} from '../../services/serices'
 import { type GridColDef } from '@mui/x-data-grid';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import Alert from '@mui/material/Alert';
+import {buyCorn} from '../../services/serices';
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', flex: 1, type: 'number', },
@@ -34,8 +38,16 @@ type CornProduct = {
   crop_type_name: string;
 };
 
+type NotificationType = {
+    message: string;
+    type: "error" | "info" | "success" | "warning";
+    close: Function
+}
+
 function Home(){
     const [cornProducts, setCornProducts] = useState<CornProduct[]>([]);
+    const [state, setState] = useState<NotificationType>({message: "", type: "success", close:  ()=>{}})
+    const [showNotification, setShowNotification] = useState<boolean>(false)
 
     const fetchData = () => {
          getCornProducts()
@@ -51,6 +63,20 @@ function Home(){
         .catch(console.log)
     }
 
+    const handleBuy = () => {
+        setShowNotification(false)
+        buyCorn()
+        .then(data => {
+            console.log(data)
+            setState({
+                message: data?.status == 429 ? "Too many request!" : data?.message,
+                type: data?.status == 429 ? "warning" : "success",
+                close: setShowNotification
+            })
+            setShowNotification(true)
+        })
+    }
+
     useEffect(() => {
         fetchData()
     }, [])
@@ -58,8 +84,21 @@ function Home(){
     return(
         <>
         <Nav/>
+        {showNotification ? <Notification message={state.message} type={state.type} close={setShowNotification}/> : null}
         <Table rows={cornProducts} columns={columns}/>
+        <Stack spacing={2} mt={3} direction="row" justifyContent="end" alignItems="center">
+            <Button variant="contained" onClick={() => handleBuy()}>Buy Some Corn</Button>
+            <Button variant="contained">Log out</Button>
+        </Stack>
         </>
+    )
+}
+
+function Notification({message='', type, close}: NotificationType){
+    return(
+        <Alert variant="filled" severity={type} onClose={() => close(false)}>
+            {message}
+        </Alert>
     )
 }
 

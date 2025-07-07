@@ -17,7 +17,7 @@ const paginationModel = { page: 0, pageSize: 5 };
 
 export default function Table({rows=[], columns=[]}: Props) {
   return (
-    <Paper sx={{ height: 400, width: '100%' }}>
+    <Paper sx={{ height: 400, width: '100%', marginTop: '24px' }}>
       <DataGrid
         rows={rows}
         columns={columns}
